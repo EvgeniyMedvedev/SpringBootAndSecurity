@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>User page (Spring Security protected)</h1>
+<!--        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
+        <h2 > Welcome <p th:text="${user}">|</p>  </h2>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Выйти"/>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>
