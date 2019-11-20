@@ -24,23 +24,20 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editPage(@PathVariable("id") int id,Model model){
-        User user = repository.getById(id);
-        model.addAttribute("user",user);
-        return "edit";
-    }
-
-    @PostMapping(value = "/edit")
-    public String edit(@ModelAttribute("user") User user) {
-        repository.add(user);
+    @PostMapping(value = "/edit/{id}")
+    public String edit(@PathVariable("id") int id, User user) {
+        User get = repository.getById(id);
+        get.setPassword(user.getPassword());
+        get.setLogin(user.getLogin());
+        get.setName(user.getName());
+        repository.add(get);
 
         return "redirect:/admin";
     }
 
     @PostMapping(value = "/add")
     public String addUser(@ModelAttribute("user")User user){
-        repository.updateUser(user);
+        repository.add(user);
 
         return "redirect:/admin";
     }

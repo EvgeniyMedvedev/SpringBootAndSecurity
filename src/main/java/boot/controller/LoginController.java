@@ -1,5 +1,6 @@
 package boot.controller;
 
+import boot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,11 @@ public class LoginController {
 
     @GetMapping("/user")
     public String getIndexPage(Authentication authentication, ModelMap model) {
-        String name = service.getByLogin(authentication.getName()).getName();
+        User user = service.getByLogin(authentication.getName());
+        String name = user.getName();
+        if (user.getRoles().iterator().next().getAuthority().equals("ROLE_ADMIN")) {
+            model.addAttribute("isAdmin", true);
+        }
         model.addAttribute("user", name);
         return "welcome";
     }
