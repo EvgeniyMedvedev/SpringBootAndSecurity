@@ -11,6 +11,7 @@ import boot.model.Role;
 import boot.model.User;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Iterable<User> getAll() {
+    public List<User> getAll() {
         return dao.findAll();
     }
 

@@ -64,77 +64,24 @@
                             <th scope="col">User Role</th>
                         </tr>
 
-                        <tr th:each="user: ${usersList}">
-                            <th scope="row" th:text="${user.id}"></th>
-                            <td th:text="${user.name}"></td>
-                            <td th:text="${user.login}"></td>
-                            <td th:text="${user.password}"></td>
-                            <td th:text="${user.roles[0].name}"></td>
-
-                            <td>
-                                <a class="btn btn-primary" th:href="@{/delete/{id}(id=${user.id})}">Удалить</a>
-                            </td>
-
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        th:attr="data-target=@{'#exampleModal-' + ${user.id}}">
-                                    Edit
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" th:attr="id=@{'exampleModal-' + ${user.id}}" tabindex="-1" role="dialog"
-                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form th:action="@{/edit/{id}(id=${user.id})}" method="POST">
-                                                <input type="hidden" name="id" th:value="${user.id}">
-
-                                                <div class="modal-body">
-                                                    <strong>Username</strong>
-                                                    <input class="d-flex justify-content-center form-control form-control-lg" type="text" value="noname" th:value="${user.name}" name="name" required>
-                                                    <strong>Login</strong>
-                                                    <input class="d-flex justify-content-center form-control form-control-lg" type="text" value="noname" th:value="${user.login}" name="login" required>
-                                                    <strong>Password</strong>
-                                                    <input class="d-flex justify-content-center form-control form-control-lg" type="text" value="noname" th:value="${user.password}" name="password" required>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button type="submit" value="Edit" class="btn btn-primary">Edit</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </td>
-
-                        </tr>
-
                     </table>
                 </div>
 
                 <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="col-4 mx-auto">
-                        <form th:action="@{/add}" method="post">
+                        <form th:action="@{/add}" id="creatUser" method="POST">
 
                             <label class="d-flex justify-content-center" for="name"><strong>Username</strong></label>
-                            <input class="form-control form-control-lg" type="text" id="name" placeholder="name"
+                            <input class="form-control form-control-lg" type="text" id="name" placeholder="Name"
                                    name="name">
 
                             <label class="d-flex justify-content-center" for="login"><strong>Login</strong></label>
-                            <input class="form-control form-control-lg" type="text" id="login" placeholder="login"
+                            <input class="form-control form-control-lg" type="text" id="login" placeholder="Login"
                                    name="login">
 
                             <label class="d-flex justify-content-center"
                                    for="password"><strong>Password</strong></label>
-                            <input class="form-control form-control-lg" type="text" id="password" placeholder="password"
+                            <input class="form-control form-control-lg" type="text" id="password" placeholder="Password"
                                    name="password">
 
                             <div class="d-flex justify-content-center pt-2">
@@ -158,5 +105,9 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/addUser.js"></script>
+<script src="js/editModal.js"></script>
+<script src="js/table.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package boot.controller;
 
+import boot.model.Role;
 import boot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,7 +25,6 @@ public class LoginController {
     @GetMapping("/login")
     public String getLoginPage(Authentication authentication, ModelMap model, HttpServletRequest request) {
         if (authentication != null) {
-            //model.addAttribute("user", request.getParameter("name"));
             return "redirect: /user";
         }
         if (request.getParameterMap().containsKey("error")) {
@@ -34,12 +34,16 @@ public class LoginController {
     }
 
     @GetMapping("/user")
-    public String getIndexPage(Authentication authentication, ModelMap model) {
+    public String getIndexPage(Authentication authentication, ModelMap model,HttpServletRequest request) {
         User user = service.getByLogin(authentication.getName());
         String name = user.getName();
-        if (user.getRoles().iterator().next().getAuthority().equals("ROLE_ADMIN")) {
+        String role = user.getRoles().iterator().next().getAuthority();
+        if (role.equals("ROLE_ADMIN")) {
             model.addAttribute("isAdmin", true);
         }
+
+
+
         model.addAttribute("user", name);
         return "welcome";
     }

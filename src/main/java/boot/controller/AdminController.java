@@ -6,10 +6,7 @@ import boot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
@@ -24,25 +21,25 @@ public class AdminController {
         return "users";
     }
 
-    @PostMapping(value = "/edit/{id}")
-    public String edit(@PathVariable("id") int id, User user) {
+    @PostMapping(value = "/{id}/edit")
+    public String edit(@PathVariable("id") int id,@ModelAttribute("user") User user) {
         User get = repository.getById(id);
         get.setPassword(user.getPassword());
         get.setLogin(user.getLogin());
         get.setName(user.getName());
-        repository.add(get);
-
-        return "redirect:/admin";
-    }
-
-    @PostMapping(value = "/add")
-    public String addUser(@ModelAttribute("user")User user){
         repository.add(user);
 
         return "redirect:/admin";
     }
 
-    @GetMapping(value="/delete/{id}")
+//    @PostMapping(value = "/add")
+//    public String addUser(@ModelAttribute("user")User user){
+//        repository.add(user);
+//
+//        return "redirect:/admin";
+//    }
+
+    @GetMapping(value="/{id}/delete")
     public String delete(@PathVariable("id") int id) {
         repository.delete(id);
 
