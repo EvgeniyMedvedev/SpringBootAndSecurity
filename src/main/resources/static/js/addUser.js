@@ -18,9 +18,9 @@ $(function () {
             url:$('#creatUser').attr('action'),
             data:JSON.stringify(user),
             dataType : 'json',
-            success:function (data) {
-                $('#creatUser').innerHTML;
-                console.log(data)
+            success:function () {
+                getTable();
+                alert(user.name + ' - added');
             },
             error : function(e) {
                 $("#creatUser").html("<strong>Error</strong>");

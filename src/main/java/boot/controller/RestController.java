@@ -1,6 +1,5 @@
 package boot.controller;
 
-import boot.model.Role;
 import boot.model.User;
 import boot.service.UserService;
 import boot.transfer.UserDTO;
@@ -9,14 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -34,9 +29,9 @@ public class RestController {
     }
 
     @GetMapping(value = "/users")
-    public List<UserDTO> getAll() {
+    public List<User> getAll() {
         List<UserDTO> all = new ArrayList<>();
-        for (User user:repository.getAll()){
+        for (User user : repository.getAll()) {
             UserDTO userDTO = new UserDTO(
                     user.getId(),
                     user.getLogin(),
@@ -45,32 +40,33 @@ public class RestController {
                     user.getRoles().iterator().next().getAuthority());
             all.add(userDTO);
         }
-        return all;
+        return repository.getAll();
     }
 
     @GetMapping(path = "/{id}")
-    public UserDTO getUser(@PathVariable int id){
-        User byId = repository.getById(id);
-        UserDTO userDTO = new UserDTO(
-                byId.getId(),
-                byId.getLogin(),
-                byId.getPassword(),
-                byId.getName(),
-                byId.getRoles().iterator().next().getAuthority());
-        return userDTO;
+    public User getUser(@PathVariable int id) {
+        return repository.getById(id);
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<User> addUser(@RequestBody User user){
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         repository.add(user);
-        logger.debug(user.toString() + "\nCreated");
+        logger.info(user.toString() + " - Created");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-//    @PostMapping(value="/{id}/delete")
-//    public ResponseEntity<User> delete(@PathVariable("id") int id) {
-//        repository.delete(id);
-//
-//        return ResponseEntity.ok().build();
-//    }
+    @DeleteMapping(value = "/{id}/delete")
+    public void delete(@PathVariable("id") int id) {
+        repository.delete(id);
+        logger.info("№ " + id + " - удален");
+    }
+
+    @PostMapping(value = "/{id}/edit")
+    public ResponseEntity<User> edit(@PathVariable("id") int id, @ModelAttribute("user") User user) {
+        logger.info(user.toString() + "\n");
+        repository.add(user);
+        logger.info(user.toString() + " - Edited");
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

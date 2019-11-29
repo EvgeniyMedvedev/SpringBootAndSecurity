@@ -37,7 +37,7 @@ public class User implements UserDetails {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", roles=" + roles.iterator().next().getAuthority() +
+//                ", roles=" + roles.iterator().next().getAuthority() +
                 '}';
     }
 

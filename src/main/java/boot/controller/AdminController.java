@@ -21,16 +21,16 @@ public class AdminController {
         return "users";
     }
 
-    @PostMapping(value = "/{id}/edit")
-    public String edit(@PathVariable("id") int id,@ModelAttribute("user") User user) {
-        User get = repository.getById(id);
-        get.setPassword(user.getPassword());
-        get.setLogin(user.getLogin());
-        get.setName(user.getName());
-        repository.add(user);
-
-        return "redirect:/admin";
-    }
+//    @PostMapping(value = "/{id}/edit")
+//    public String edit(@PathVariable("id") int id,@ModelAttribute("user") User user) {
+//        User get = repository.getById(id);
+//        get.setPassword(user.getPassword());
+//        get.setLogin(user.getLogin());
+//        get.setName(user.getName());
+//        repository.add(user);
+//
+//        return "redirect:/admin";
+//    }
 
 //    @PostMapping(value = "/add")
 //    public String addUser(@ModelAttribute("user")User user){
@@ -39,11 +39,11 @@ public class AdminController {
 //        return "redirect:/admin";
 //    }
 
-    @GetMapping(value="/{id}/delete")
-    public String delete(@PathVariable("id") int id) {
-        repository.delete(id);
-
-        return "redirect:/admin";
-    }
+//    @GetMapping(value="/{id}/delete")
+//    public String delete(@PathVariable("id") int id) {
+//        repository.delete(id);
+//
+//        return "redirect:/admin";
+//    }
 
 }
