@@ -1,5 +1,8 @@
 package boot.service;
 
+import boot.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,14 +14,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserService userService;
 
-    @Autowired
+    private final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
+
     public UserDetailsServiceImpl(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-
-        return userService.getByLogin(login);
+        User byLogin = userService.getByLogin(login);
+        log.info("User - {} has been loaded" , byLogin.toString());
+        return byLogin;
     }
 }

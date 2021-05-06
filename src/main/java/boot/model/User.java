@@ -15,15 +15,23 @@ public class User implements UserDetails {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
 
-    public User(String login) {
-        this.login = login;
-    }
-
     private String login;
 
     private String password;
 
     private String name;
+
+    public User(String login) {
+        this.login = login;
+    }
+
+    public User(){}
+
+    public User(String name,String login,String password){
+        this.name = name;
+        this.login = login;
+        this.password = password;
+    }
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -37,18 +45,7 @@ public class User implements UserDetails {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-//                ", roles=" + roles.iterator().next().getAuthority() +
                 '}';
-    }
-
-    public User(){
-
-    }
-
-    public User(String name,String login,String password){
-        this.name = name;
-        this.login = login;
-        this.password = password;
     }
 
     public int getId() {

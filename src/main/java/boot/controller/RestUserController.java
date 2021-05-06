@@ -13,23 +13,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+public class RestUserController {
 
-    @Autowired
-    private UserService repository;
+    private final UserService repository;
 
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
+    public RestUserController(UserService repository) {
+        this.repository = repository;
+    }
+
     @PostMapping(value = "/edit")
-    public ResponseEntity<User> edit(@RequestBody User user) {
+    public ResponseEntity<?> edit(@RequestBody User user) {
         repository.add(user);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping(value = "/users")
-    public List<User> getAll() {
+    public List<UserDTO> getAll() {
         List<UserDTO> all = new ArrayList<>();
         for (User user : repository.getAll()) {
             UserDTO userDTO = new UserDTO(
@@ -40,7 +43,7 @@ public class RestController {
                     user.getRoles().iterator().next().getAuthority());
             all.add(userDTO);
         }
-        return repository.getAll();
+        return all;
     }
 
     @GetMapping(path = "/{id}")
@@ -51,7 +54,7 @@ public class RestController {
     @PostMapping(value = "/add")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         repository.add(user);
-        logger.info(user.toString() + " - Created");
+        logger.info(user.toString() + " - was created");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -62,10 +65,9 @@ public class RestController {
     }
 
     @PostMapping(value = "/{id}/edit")
-    public ResponseEntity<User> edit(@PathVariable("id") int id, @ModelAttribute("user") User user) {
-        logger.info(user.toString() + "\n");
+    public ResponseEntity<?> edit(@PathVariable("id") int id, @ModelAttribute("user") User user) {
         repository.add(user);
-        logger.info(user.toString() + " - Edited");
+        logger.info(user + " - was edited");
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

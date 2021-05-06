@@ -1,23 +1,20 @@
 package boot.controller;
 
-import boot.model.Role;
 import boot.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import boot.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import boot.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
 
-    private UserService service;
+    private final UserService service;
 
-    @Autowired
     public LoginController(UserService service) {
         this.service = service;
     }
@@ -34,15 +31,13 @@ public class LoginController {
     }
 
     @GetMapping("/user")
-    public String getIndexPage(Authentication authentication, ModelMap model,HttpServletRequest request) {
+    public String getIndexPage(Authentication authentication, ModelMap model) {
         User user = service.getByLogin(authentication.getName());
         String name = user.getName();
         String role = user.getRoles().iterator().next().getAuthority();
         if (role.equals("ROLE_ADMIN")) {
             model.addAttribute("isAdmin", true);
         }
-
-
 
         model.addAttribute("user", name);
         return "welcome";

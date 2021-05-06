@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class AdminController {
 
-    @Autowired
-    private UserService repository;
+    private final UserService repository;
+
+    public AdminController(UserService repository) {
+        this.repository = repository;
+    }
 
     @GetMapping(value = "/admin")
     public String getAll(Model model){

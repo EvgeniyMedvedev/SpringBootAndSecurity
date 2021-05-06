@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final RoleRepository rDao;
 
-    PasswordEncoder encoder = new BCryptPasswordEncoder(11);
+    private final PasswordEncoder encoder = new BCryptPasswordEncoder(11);
 
     @Autowired
     public UserServiceImpl(UserRepository dao, RoleRepository rDao) {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public void add(User t) {
         t.setPassword(encoder.encode(t.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(rDao.findById(1L).get());
+        roles.add(rDao.findById(1L).orElse(null));
         t.setRoles(roles);
         dao.save(t);
     }
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getById(int id) {
-        return dao.findById(id).get();
+        return dao.findById(id).orElse(null);
     }
 
     @Override
